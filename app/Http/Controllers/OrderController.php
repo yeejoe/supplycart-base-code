@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
+use Auth;
+use \App\Models\UserOrder;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class OrderController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,6 +26,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if (Auth::check()){
+            $userOrders = UserOrder::where("user_id", Auth::id())->get();
+            return view('order', ["orders" => $userOrders]);
+        }else{
+            return view('logout');
+        }
     }
 }

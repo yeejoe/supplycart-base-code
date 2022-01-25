@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ProductController extends Controller
 {
     /**
      * Create a new controller instance.

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePersonalAccessTokensTable extends Migration
+class CreateUserCartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,9 +15,16 @@ class CreatePersonalAccessTokensTable extends Migration
     {
         Schema::create('user_carts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger("product_id");
-            $table->unsignedInteger("quantity");
+            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("product_id");
+            $table->unsignedBigInteger("quantity");
             $table->timestamps();
+            
+            $table->index(["product_id"], "fk_user_carts_products1_idx");
+            $table->index(["user_id"], "fk_user_carts_users1_idx");
+
+            $table->foreign("product_id", "fk_user_carts_products1_idx")->references("id")->on("products")->onDelete("no action")->onUpdate("no action");
+            $table->foreign("user_id", "fk_user_carts_users1_idx")->references("id")->on("users")->onDelete("no action")->onUpdate("no action");
         });
     }
 
@@ -28,6 +35,6 @@ class CreatePersonalAccessTokensTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('personal_access_tokens');
+        Schema::dropIfExists('user_carts');
     }
 }
